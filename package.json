@@ -16,8 +16,8 @@
   },
   "scripts": {
     "start": "electron main.js",
-    "package-win32": "electron-packager . jtp-parking-acc-app --overwrite --asar --platform=win32 --arch=ia32 --icon=app/assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"JTP Parking Acc App\"",
-    "package-amd64": "electron-packager . jtp-parking-acc-app --overwrite --asar --icon=app/assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"JTP Parking Acc App\""
+    "package-win32": "electron-packager . jtp-parking-acc-app --overwrite --asar --platform=win32 --arch=ia32 --icon=icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"JTP Parking Acc App\"",
+    "package-amd64": "electron-packager . jtp-parking-acc-app --overwrite --asar --icon=icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"JTP Parking Acc App\""
   },
   "keywords": [],
   "author": "",
