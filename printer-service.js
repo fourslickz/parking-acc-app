@@ -2,9 +2,12 @@
     function() {
         "use strict";
         // LOCATION
-        const fs = require('fs');
-        let dataFile = require('c:\\parking.json');
-        const company = dataFile.company;
+        //const fs = require('fs');
+        //let dataFile = require('c:\\parking.json');
+        //const company = dataFile.company;
+
+        let location;
+        let address;
 
         // ESCPOS
         let escpos = require('escpos');
@@ -91,13 +94,13 @@
         
         router.route('/print-laporan-kasir')
             .post(function(req, res){
-                printLaporanKasir(req);
+                setCompany(req.headers['x-branch']).then( () => printLaporanKasir(req) );
                 res.json(req.body);
             });
 
         router.route('/print-struk-topup')
-            .post(function(req, res){
-                printStrukTopup(req);
+            .post(function(req, res) {
+                setCompany(req.headers['x-branch']).then( () => printStrukTopup(req) );
                 res.json(req.body);
             });
 
@@ -123,33 +126,34 @@
 
 
         //==============================================================================
-        switch(company){
-            case "ma":
-                var location = 'MUSEUM ANGKUT';
-                var address = 'Jl. Terusan Sultan Agung No.2, Kota Batu';
-                break;
-
-            case "jtp2":
-                var location = 'JATIM PARK 2';
-                var address = 'Jl. Oro-Oro Ombo No.9, Kota Batu';
-                break;
-
-            case "pfp":
-                var location = 'PREDATOR FUN PARK';
-                var address = 'Jl. Raya Tlekung No.315, Kota Batu';
-                break;
-
-            case "bns":
-                var location = 'BATU NIGHT SPECTACULAR';
-                var address = 'Jl. Hayam Wuruk No.1, Kota Batu';
-                break;
-        }
-
-
         var liner = '--------------------------------';
         var linerReport = '----------------------------------------';
         var linercut = '---------potong disini----------'
         var message = 'Simpan tiket ini baik baik, jangan sampai hilang. Pintu kendaraan harap dikunci. Dilarang meninggalkan karcis dan barang berharga di dalam kendaraan. kerusakan dan kehilangan bukan tanggung jawab manajemen. \nDenda tiket hilang: \nRoda-2: Rp 13.000,- \nRoda-4: Rp 25.000,-';
+
+        async function setCompany(branch) {
+            switch(branch) {
+                case "ma":
+                    location = 'MUSEUM ANGKUT';
+                    address = 'Jl. Terusan Sultan Agung No.2, Kota Batu';
+                    break;
+    
+                case "jtp2":
+                    location = 'JATIM PARK 2';
+                    address = 'Jl. Oro-Oro Ombo No.9, Kota Batu';
+                    break;
+    
+                case "pfp":
+                    location = 'PREDATOR FUN PARK';
+                    address = 'Jl. Raya Tlekung No.315, Kota Batu';
+                    break;
+    
+                case "bns":
+                    location = 'BATU NIGHT SPECTACULAR';
+                    address = 'Jl. Hayam Wuruk No.1, Kota Batu';
+                    break;
+            }
+        }
 
         function printStruk(kd_trx_parkir, kendaraan, gate, tanggal, jam){
             device.open(function(error){
